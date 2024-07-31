@@ -42,7 +42,7 @@ app.post('/upload', upload.single('upload'), (req, res) => {
   if (!content || raw_name == undefined || !content.includes(raw_name)) {
     return res.sendStatus(500);
   }
-  const file = renameSync(content_dir + "\\" + raw_name, content_dir + "\\" + route + "." + original_name?.split(".").pop());
+  const file = renameSync(content_dir + "/" + raw_name, content_dir + "/" + route + "." + original_name?.split(".").pop());
   res.redirect(route);
 })
 
@@ -73,7 +73,7 @@ app.use((req, res, next) => {
     const file = findByName(content_dir, required);
     if (file == null)
       return res.redirect("/" + required);
-    rmSync(content_dir + "\\" + file);
+    rmSync(content_dir + "/" + file);
     res.redirect("/")
     return 
   }
@@ -83,7 +83,7 @@ app.use((req, res, next) => {
   const file = findByName(content_dir, required);
   if (file == null)
     return res.send(main + nothing_found(req.url));
-  res.sendFile(content_dir + "\\" + file);
+  res.sendFile(content_dir + "/" + file);
 });
 
 app.listen(port, () => {
