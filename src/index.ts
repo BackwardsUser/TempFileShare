@@ -1,6 +1,6 @@
 // Package Imports
 import express, { type Request, type Response } from "express";
-import { readdirSync, readFileSync, renameSync, rmSync } from "node:fs";
+import { readdirSync, readFileSync, renameSync, rmSync, existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import multer from 'multer';
 
@@ -23,6 +23,11 @@ app.use(express.urlencoded({
 // HTML Strings
 const help = `<body class="roboto-light dark center"><h1 class="m-0">Start by entering a unique string into the url bar,</h1><h1 class="m-0">you can check if its available by going to the url!</></body>`;
 const nothing_found = (route: string) => `<body class="roboto-light dark center"><h1>Nothing was found, feel free to upload something!</h1><form action="upload" method="post" enctype="multipart/form-data"><input type="file" name="upload"><button type="submit" name="route" value="${route}">Upload</button></form></body>`;
+
+// Script Setup
+if (!existsSync(content_dir)) {
+  mkdirSync(content_dir);
+}
 
 // Express Functions
 app.get('/', (req, res) => {
