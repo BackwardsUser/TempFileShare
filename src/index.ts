@@ -21,7 +21,7 @@ app.use(express.urlencoded({
 }));
 
 // HTML Strings
-const help = `<body class="roboto-light dark center"><h1 class="m-0">Start by entering a unique string into the url bar,</h1><h1 class="m-0">you can check if its available by going to the url!</></body>`;
+const help = `<body class="roboto-light dark center"><h1 class="m-0">Start by entering a unique string into the url bar,</h1><h1 class="m-0">you can check if its available by going to the url!</h1></body>`;
 const nothing_found = (route: string) => `<body class="roboto-light dark center"><h1>Nothing was found, feel free to upload something!</h1><form action="upload" method="post" enctype="multipart/form-data"><input type="file" name="upload"><button type="submit" name="route" value="${route}">Upload</button></form></body>`;
 
 // Script Setup
@@ -44,8 +44,11 @@ app.post('/upload', upload.single('upload'), (req, res) => {
   }
   const file = renameSync(content_dir + "/" + raw_name, content_dir + "/" + route + "." + original_name?.split(".").pop());
   res.redirect(route);
-})
+});
 
+app.get("/search", (req, res) => {
+  res.redirect("/" + req.query.route);
+});
 
 /**
  * Returns the first instance of a file in a directory
