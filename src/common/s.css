@@ -6,19 +6,10 @@
   font-style: normal;
 }
 
-@keyframes fade {
-  0% {
-    background-position: 0% 100%;
-  }
-  100% {
-    background-position: 100% 0%;
-  }
-}
-
 .dark {
-  background-size: 250%;
-  background-image: linear-gradient(45deg, rgb(9, 17, 34), rgb(71, 33, 33));
-  /* animation: fade 30s infinite alternate; */
+  background-image: linear-gradient(45deg, rgb(9, 17, 34), rgb(71, 33, 33), rgb(9, 17, 34));
+  background-size: 400% 400%;
+  background-position: 0% 175%;
   color: white;
 }
 
@@ -31,8 +22,30 @@
   margin: auto;
   padding: 0;
   width: max-content;
+  user-select: none;
 }
 
 .m-0 {
   margin: 0;
+}
+
+.searchbar {
+  background-color: transparent;
+  border: none;
+  color: white;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: large;
+  width: min-content;
+  outline: none;
+  margin-top: 6px;
+  border: 1px transparent solid;
+  border-radius: 0.5em;
+  transition-duration: 300ms;
+}
+
+.searchbar:focus {
+  border-color: rgb(133, 133, 133);
 }

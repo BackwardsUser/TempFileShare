@@ -16,7 +16,7 @@
     "test": "nodemon ./src/index.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "BackwardsUser",
   "license": "MIT",
   "description": ""
 }

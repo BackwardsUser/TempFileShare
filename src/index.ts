@@ -1,7 +1,7 @@
 // Package Imports
 import express, { type Request, type Response } from "express";
 import { readdirSync, readFileSync, renameSync, rmSync, existsSync, mkdirSync } from "node:fs";
-import { join } from "node:path";
+import { join, sep } from "node:path";
 import multer from 'multer';
 
 // Package Prep
@@ -21,8 +21,8 @@ app.use(express.urlencoded({
 }));
 
 // HTML Strings
-const help = `<body class="roboto-light dark center"><h1 class="m-0">Start by entering a unique string into the url bar,</h1><h1 class="m-0">you can check if its available by going to the url!</h1></body>`;
-const nothing_found = (route: string) => `<body class="roboto-light dark center"><h1>Nothing was found, feel free to upload something!</h1><form action="upload" method="post" enctype="multipart/form-data"><input type="file" name="upload"><button type="submit" name="route" value="${route}">Upload</button></form></body>`;
+const help = `<body class="roboto-light dark center"><h1 class="m-0">Create or Search a File</h1><form action="search" method="get"><input class="searchbar" name="route" placeholder="Search"></form></body>`;
+const nothing_found = (route: string) => `<body class="roboto-light dark center"><h1>Nothing was found, feel free to upload something!</h1><form action="upload" method="post" enctype="multipart/form-data"><input type="file" name="upload"><button type="submit" name="route" value="${route}">Upload</button></form><a href="/" style="color:white;">Home</a></body>`;
 
 // Script Setup
 if (!existsSync(content_dir)) {
@@ -42,7 +42,8 @@ app.post('/upload', upload.single('upload'), (req, res) => {
   if (!content || raw_name == undefined || !content.includes(raw_name)) {
     return res.sendStatus(500);
   }
-  const file = renameSync(content_dir + "/" + raw_name, content_dir + "/" + route + "." + original_name?.split(".").pop());
+  
+  const file = renameSync(content_dir + sep + raw_name, content_dir + sep + route + "." + original_name?.split(".").pop());
   res.redirect(route);
 });
 
@@ -76,7 +77,7 @@ app.use((req, res, next) => {
     const file = findByName(content_dir, required);
     if (file == null)
       return res.redirect("/" + required);
-    rmSync(content_dir + "/" + file);
+    rmSync(content_dir + sep + file);
     res.redirect("/")
     return 
   }
@@ -86,7 +87,7 @@ app.use((req, res, next) => {
   const file = findByName(content_dir, required);
   if (file == null)
     return res.send(main + nothing_found(req.url));
-  res.sendFile(content_dir + "/" + file);
+  res.sendFile(content_dir + sep + file);
 });
 
 app.listen(port, () => {
